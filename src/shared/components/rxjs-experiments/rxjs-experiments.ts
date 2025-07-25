@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { interval } from 'rxjs';
+import { interval, of } from 'rxjs';
+import * as txt from '../../../assets/dialogues/subscribe.json';
 
 @Component({
   selector: 'app-rxjs-experiments',
@@ -8,21 +9,25 @@ import { interval } from 'rxjs';
   styleUrl: './rxjs-experiments.scss',
 })
 export class RxjsExperiments implements OnInit {
-  carsArray = [{ id: 1, type: 'car', model: 'fusca' }];
+  content = '';
+  dialogue = '';
+  carsArray = of([{ id: 1, type: 'car', model: 'fusca' }]);
 
   currentCar = '';
 
   ngOnInit() {
-    interval(2000).subscribe(() => {
-      if (this.currentCar === '' || this.currentCar === 'explodiu') {
-        this.currentCar = this.carsArray[0].model;
-        return;
-      }
+    this.subscribe();
+    const teste = this.carsArray.subscribe((x) => console.log(x));
+  }
 
-      if (this.currentCar) {
-        this.currentCar = 'explodiu';
-        return;
-      }
-    });
+  subscribe() {
+    this.content = 'Subscribe';
+    const operator = txt.dialogues.operator.operator + ': ';
+    const operatorSpeech = txt.dialogues.operator;
+
+    this.dialogue = operator + operatorSpeech[1];
+    this.dialogue = operator + operatorSpeech[2];
+    this.dialogue = operator + operatorSpeech[3];
+    this.dialogue = operator + operatorSpeech[4];
   }
 }
