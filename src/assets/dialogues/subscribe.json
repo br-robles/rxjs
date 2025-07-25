@@ -2,20 +2,17 @@
   "dialogues": {
     "operator": {
       "operator": "Operador",
-      "1": "SEGUNDOU! Mais uma semana de aprendizado!",
-      "2": "Hoje irei utilizar Subscribe para verificar quais carros irão passar por aqui.",
-      "3": "O que temos aqui? Parece ser uma lata velha...",
-      "4": "Hora de verificar...",
-      "5": "Bom dia! Qual o seu nome? E modelo do veículo?",
-
-      "7": "Qual o motivo da visita? E com quem você quer falar?"
+      "1": { "value": "SEGUNDOU! Mais uma semana de aprendizado!", "delay": 1000 },
+      "2": { "value": "Hoje irei utilizar Subscribe para verificar quais carros irão passar por aqui.", "delay": 1000 },
+      "3": { "value": "O que temos aqui? Parece ser uma lata velha...", "delay": 1000 },
+      "4": { "value": "Hora de verificar...", "delay": 1000 },
+      "5": { "value": "Bom dia! Qual o seu nome? E modelo do veículo?", "delay": 1000 },
+      "7": { "value": "Qual o motivo da visita? E com quem você quer falar?", "delay": 1000 }
     },
     "driver": {
       "driver": "Motorista",
-      "6": "Bom dia! Meu nome é Ronaldo. Estou dirigindo um fusca!",
-      "8": "Eu preciso visitar meu irmão Vitor."
-
-
+      "6": { "value": "Bom dia! Meu nome é Ronaldo. Estou dirigindo um fusca!", "delay": 1000 },
+      "8": { "value": "Eu preciso visitar meu irmão Vitor.", "delay": 1000 }
     }
   },
   "lesson": {

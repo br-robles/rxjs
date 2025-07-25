@@ -1,5 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { interval, of } from 'rxjs';
+import {
+  concatMap,
+  from,
+  interval,
+  Observable,
+  of,
+  skip,
+  take,
+  timer,
+} from 'rxjs';
 import * as txt from '../../../assets/dialogues/subscribe.json';
 
 interface Teste {
@@ -8,6 +17,8 @@ interface Teste {
   model: string;
   hasPermissionToEnter: boolean;
 }
+
+type DialogueItem = { value: string; delay: number };
 @Component({
   selector: 'app-rxjs-experiments',
   imports: [],
@@ -32,13 +43,32 @@ export class RxjsExperiments implements OnInit {
 
   executeSubscribeLesson() {
     this.content = 'Subscribe';
-    const operator = txt.dialogues.operator.operator + ': ';
-    const operatorSpeech = txt.dialogues.operator;
+    const operatorName = txt.dialogues.operator.operator;
+    const rawSpeech = txt.dialogues.operator as unknown as Record<
+      string,
+      DialogueItem
+    >;
 
-    this.dialogue = operator + operatorSpeech[1];
-    this.dialogue = operator + operatorSpeech[2];
-    this.dialogue = operator + operatorSpeech[3];
-    this.dialogue = operator + operatorSpeech[4];
+    let index = 1;
+    const lastIndex = 4;
+
+    const next$ = (): Observable<null> => {
+      if (index > lastIndex) return of(null);
+
+      const item = rawSpeech[index.toString()];
+
+      if (!item) return of(null);
+
+      return timer(item.delay).pipe(
+        concatMap(() => {
+          this.dialogue = operatorName + ': ' + item.value;
+          index++;
+          return next$();
+        })
+      );
+    };
+
+    next$().subscribe();
 
     this.explanation = txt.lesson.subscribe.explanation;
   }
