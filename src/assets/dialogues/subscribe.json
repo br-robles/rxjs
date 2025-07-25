@@ -17,5 +17,10 @@
 
 
     }
+  },
+  "lesson": {
+    "subscribe": {
+      "explanation": "O Subscribe é um método que visualiza um recurso descartável."
+    }
   }
 }
