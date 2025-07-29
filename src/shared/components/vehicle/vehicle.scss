@@ -2,40 +2,37 @@
   background-color: orange;
   width: 30rem;
   height: 8rem;
-
   display: flex;
   flex-direction: column;
+  clip-path: path("M 0,40 L 65,40 L 65,40 L 65,0 L 415,0 L 415,40 L 480,40 L 480,140 L 0,190 L 0,50 L 0,40 Z");
 }
 
 .container-window {
   display: flex;
   justify-content: space-around;
+  position: relative;
+    top: 1rem;
 }
 
 .window {
   background-color: cadetblue;
-  width: 7rem;
-  height: 4rem;
+  width: 5rem;
+    height: 2.5rem;
 }
 
 .container-wheel {
   display: flex;
   justify-content: space-around;
-
   flex: 1;
   align-items: end;
+  top: 1.5rem;
+    position: relative;
 }
 
 .wheel {
   background-color: dimgray;
   width: 5rem;
-  height: 2rem;
-}
-
-.left-wheel {
-
-}
-
-.right-wheel {
-
+  height: 5rem;
+    border-radius: 50%;
+    z-index: 12;
 }
