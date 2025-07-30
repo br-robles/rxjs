@@ -1,24 +1,32 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  concat,
   concatMap,
+  EMPTY,
+  finalize,
   from,
   interval,
   Observable,
   of,
   skip,
   take,
+  takeUntil,
+  takeWhile,
   timer,
 } from 'rxjs';
 import * as txt from '../../../assets/dialogues/subscribe.json';
 
-interface Teste {
+interface IVehicle {
   id: number;
   type: string;
   model: string;
   hasPermissionToEnter: boolean;
 }
 
-type DialogueItem = { value: string; delay: number };
+interface DialogueItem {
+  value: string;
+  delay: number;
+}
 @Component({
   selector: 'app-rxjs-experiments',
   imports: [],
@@ -34,7 +42,7 @@ export class RxjsExperiments implements OnInit {
     { id: 1, type: 'car', model: 'fusca', hasPermissionToEnter: true },
   ]);
 
-  currentVehicle = <Teste>{};
+  currentVehicle = <IVehicle>{};
 
   ngOnInit() {
     this.executeSubscribeLesson();
@@ -59,12 +67,12 @@ export class RxjsExperiments implements OnInit {
 
       if (!item) return of(null);
 
-      return timer(item.delay).pipe(
-        concatMap(() => {
-          this.dialogue = operatorName + ': ' + item.value;
-          index++;
-          return next$();
-        })
+      this.dialogue = operatorName + ': ' + item.value;
+
+      return interval(1000).pipe(
+        takeWhile((count) => count < item.delay),
+        finalize(() => index++),
+        concatMap(() => next$())
       );
     };
 
