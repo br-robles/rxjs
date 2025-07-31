@@ -23,3 +23,25 @@
   }
 }
  */
+.container-rxjs {}
+
+.scene {
+  display: flex;
+  align-items: center;
+}
+
+.station {
+  display: flex;
+  align-items: end;
+  left: 1rem;
+  position: relative;
+  gap: 10px;
+}
+
+.vehicle {
+  align-self: end;
+}
+
+.container-operator {}
+
+.barrier {}
