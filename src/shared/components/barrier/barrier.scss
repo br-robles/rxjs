@@ -26,11 +26,12 @@
   position: relative;
   overflow: hidden;
   display: flex;
-  rotate: 90deg;
+  transform: rotate(var(--rotation, 90deg));
+  transition: transform 1s ease;
   transform-origin: left center;
   left: 50%;
 
-  .teste {
+  .warning-strip {
     background-color: yellow;
     width: 2rem;
     height: 0.5rem;
