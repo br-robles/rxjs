@@ -1,19 +1,21 @@
-<div>Conteúdo observado: {{ this.content }}</div>
-<div>{{ this.dialogue }}</div>
+<div>Conteúdo observado: {{ this.lessonTitle }}</div>
+<div class="show-in-dialogue-box">{{ this.dialogue }}</div>
 
-<br>
+<br />
 
 <div>
   <div>Resultado da Verificação:</div>
   <div class="statistics">
-    <div> Ordem de chegada: {{ this.currentVehicle.id }}</div>
-    <div> Tipo de veículo: {{ this.currentVehicle.type }}</div>
-    <div> Modelo do veículo: {{ this.currentVehicle.model }}</div>
-    <div> Tem permissão para entrada: {{ this.currentVehicle.hasPermissionToEnter }}</div>
+    <div>Ordem de chegada: {{ this.currentVehicle.id }}</div>
+    <div>Tipo de veículo: {{ this.currentVehicle.type }}</div>
+    <div>Modelo do veículo: {{ this.currentVehicle.model }}</div>
+    <div>
+      Tem permissão para entrada: {{ this.currentVehicle.hasPermissionToEnter }}
+    </div>
   </div>
 </div>
 
-<br>
+<br />
 
 <div>
   <div>Lição Aprendida:</div>

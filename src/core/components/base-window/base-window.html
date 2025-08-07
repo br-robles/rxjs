@@ -1,5 +1,5 @@
 <div class="container-rxjs">
-  <app-rxjs-experiments></app-rxjs-experiments>
+  <app-rxjs-experiments (canOpenBar)="canOpenBar = $event"></app-rxjs-experiments>
 </div>
 
 <div class="scene">
@@ -13,7 +13,7 @@
     </div>
 
     <div class="barrier">
-      <app-barrier></app-barrier>
+      <app-barrier [onOpenBar]="canOpenBar"></app-barrier>
     </div>
   </div>
 </div>

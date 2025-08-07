@@ -10,4 +10,6 @@ import { Vehicle } from '../../../shared/components/vehicle/vehicle';
   templateUrl: './base-window.html',
   styleUrl: './base-window.scss',
 })
-export class BaseWindow {}
+export class BaseWindow {
+  canOpenBar!: boolean;
+}

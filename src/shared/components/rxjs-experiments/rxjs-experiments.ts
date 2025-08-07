@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import {
   concat,
   concatMap,
@@ -27,6 +27,7 @@ interface DialogueItem {
   value: string;
   delay: number;
 }
+
 @Component({
   selector: 'app-rxjs-experiments',
   imports: [],
@@ -34,11 +35,33 @@ interface DialogueItem {
   styleUrl: './rxjs-experiments.scss',
 })
 export class RxjsExperiments implements OnInit {
-  content = '';
-  dialogue = '';
-  explanation = '';
+  @Output() canOpenBar = new EventEmitter<boolean>();
 
-  carsArray = of([
+  private _lessonTitle!: string;
+  protected get lessonTitle() {
+    return this._lessonTitle;
+  }
+  protected set lessonTitle(value) {
+    this._lessonTitle = value;
+  }
+
+  private _dialogue!: string;
+  protected get dialogue() {
+    return this._dialogue;
+  }
+  protected set dialogue(value) {
+    this._dialogue = value;
+  }
+
+  private _explanation!: string;
+  protected get explanation(): string {
+    return this._explanation;
+  }
+  protected set explanation(value: string) {
+    this._explanation = value;
+  }
+
+  protected vehicleArray = of([
     { id: 1, type: 'car', model: 'fusca', hasPermissionToEnter: true },
   ]);
 
@@ -46,11 +69,13 @@ export class RxjsExperiments implements OnInit {
 
   ngOnInit() {
     this.executeSubscribeLesson();
-    this.carsArray.subscribe((x) => (this.currentVehicle = x[0]));
+    this.vehicleArray.subscribe(
+      (vehicle) => (this.currentVehicle = vehicle[0])
+    );
   }
 
   executeSubscribeLesson() {
-    this.content = 'Subscribe';
+    this.lessonTitle = 'Subscribe';
     const operatorName = txt.dialogues.operator.operator;
     const rawSpeech = txt.dialogues.operator as unknown as Record<
       string,
@@ -61,13 +86,18 @@ export class RxjsExperiments implements OnInit {
     const lastIndex = 4;
 
     const next$ = (): Observable<null> => {
-      if (index > lastIndex) return of(null);
+      const dialogueEnded = index > lastIndex;
+      if (dialogueEnded) {
+        // @Todo: has to emit canOpenBar only after driver validated
+        this.canOpenBar.emit(true);
+        return of(null);
+      }
 
       const item = rawSpeech[index.toString()];
 
       if (!item) return of(null);
 
-      this.dialogue = operatorName + ': ' + item.value;
+      this.showInDialogueBox(operatorName, item.value);
 
       return interval(1000).pipe(
         takeWhile((count) => count < item.delay),
@@ -79,5 +109,9 @@ export class RxjsExperiments implements OnInit {
     next$().subscribe();
 
     this.explanation = txt.lesson.subscribe.explanation;
+  }
+
+  showInDialogueBox(person: string, value: string) {
+    this.dialogue = person + ': ' + value;
   }
 }

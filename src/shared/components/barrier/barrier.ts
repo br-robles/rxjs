@@ -4,10 +4,18 @@ import {
   ElementRef,
   inject,
   Input,
+  OnChanges,
   OnInit,
   Renderer2,
+  SimpleChanges,
 } from '@angular/core';
-import { timer } from 'rxjs';
+import {
+  BehaviorSubject,
+  distinctUntilChanged,
+  filter,
+  Observable,
+  timer,
+} from 'rxjs';
 
 @Component({
   selector: 'app-barrier',
@@ -15,26 +23,28 @@ import { timer } from 'rxjs';
   templateUrl: './barrier.html',
   styleUrl: './barrier.scss',
 })
-export class Barrier implements OnInit, AfterViewInit {
-  private el = inject(ElementRef);
-  private renderer = inject(Renderer2);
-  private canOpenBar: boolean = false;
-
-  /* @Input() set rotateBar(value: string) {
-    const target = this.el.nativeElement.querySelector('.bar');
-
-    if (target) this.renderer.setStyle(target, 'transform', `rotate(${value})`);
-  } */
-
-  ngOnInit() {
-    timer(5000).subscribe(() => this.openBar());
+export class Barrier implements OnInit {
+  @Input() set onOpenBar(value: boolean) {
+    this._canOpenBar$.next(value);
   }
 
-  ngAfterViewInit() {}
+  private el = inject(ElementRef);
+  private renderer = inject(Renderer2);
+  private _canOpenBar$ = new BehaviorSubject<boolean>(false);
 
-  openBar() {
-    // @TODO: Has to implement this validation;
-    //if (this.canOpenBar) {}
+  ngOnInit() {
+    this._canOpenBar$
+      .pipe(
+        filter((value) => value !== null && value !== undefined),
+        distinctUntilChanged()
+      )
+      .subscribe((value) => {
+        this.openBar(value);
+      });
+  }
+
+  openBar(value: boolean) {
+    if (!value) return;
 
     const target = this.el.nativeElement.querySelector('.bar');
     if (target) this.renderer.setStyle(target, 'transform', `rotate(0deg)`);
